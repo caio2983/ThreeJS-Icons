@@ -51,22 +51,37 @@ export class ThreeComponent implements AfterViewInit {
           const path = paths[i];
           console.log(path);
 
-          const material = new THREE.MeshBasicMaterial({
+          const material = new THREE.MeshStandardMaterial({
             color: 'white',
+            transparent: true,
+            opacity: 0.4,
+            roughness: 0.6,
+            metalness: 0.5,
             side: THREE.DoubleSide,
-            depthWrite: false,
           });
+
+          const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+          this.scene.add(ambientLight);
+
+          const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+          directionalLight.position.set(5, 5, 5);
+          this.scene.add(directionalLight);
 
           const shapes = SVGLoader.createShapes(path);
           for (let j = 0; j < shapes.length; j++) {
             const shape = shapes[j];
-            const geometry = new THREE.ShapeGeometry(shape);
+            const geometry = new THREE.ExtrudeGeometry(shape, {
+              depth: 5,
+              bevelEnabled: true,
+              bevelSize: 0,
+              bevelThickness: 100,
+            });
             const mesh = new THREE.Mesh(geometry, material);
             group.add(mesh);
           }
         }
 
-        group.scale.set(0.0005, 0.0005, 0.0005);
+        group.scale.set(0.0015, 0.0015, 0.0015);
         group.rotation.x = Math.PI;
         group.position.set(0, 0, 0);
         this.scene.add(group);
