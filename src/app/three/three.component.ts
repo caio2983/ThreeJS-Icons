@@ -83,7 +83,7 @@ export class ThreeComponent implements AfterViewInit {
 
         group.scale.set(0.0015, 0.0015, 0.0015);
         group.rotation.x = Math.PI;
-        group.position.set(0, 0, 0);
+        group.position.set(0, -0.5, 0);
         this.scene.add(group);
 
         this.group = group;
